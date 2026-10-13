@@ -32,9 +32,11 @@ Por ahora expone solo un endpoint de salud; la funcionalidad se implementa duran
 
 | Recurso | URL |
 |---|---|
-| Servicio en Azure | `https://<nombre>.azurewebsites.net` |
-| Health | `https://<nombre>.azurewebsites.net/api/v1/health` |
-| Swagger | `https://<nombre>.azurewebsites.net/swagger-ui/index.html` |
+| Servicio en Azure | https://dosw-parcial-danielbarrera-gsgkbxc6gdhmgxf6.northcentralus-01.azurewebsites.net |
+| Health | https://dosw-parcial-danielbarrera-gsgkbxc6gdhmgxf6.northcentralus-01.azurewebsites.net/api/v1/health |
+| Swagger | https://dosw-parcial-danielbarrera-gsgkbxc6gdhmgxf6.northcentralus-01.azurewebsites.net/swagger-ui/index.html |
+
+Azure App Service (Linux, contenedor, plan F1) en la región North Central US, con MongoDB Atlas como base de datos.
 
 ## 4. Estructura del proyecto
 
@@ -124,8 +126,12 @@ Verificación: `http://localhost:8080/api/v1/health` y `http://localhost:8080/sw
 
 Reporte de cobertura: `target/site/jacoco/index.html`.
 
-<!-- Captura de las pruebas en verde: docs/images/pruebas.png -->
-<!-- Captura del reporte Jacoco: docs/images/jacoco.png -->
+**Pruebas en verde**
+
+![Pruebas en verde](docs/images/pruebas.webp)
+**Reporte de cobertura Jacoco**
+
+![Reporte Jacoco](docs/images/jacoco.png)
 
 ## 9. Docker
 
@@ -134,7 +140,9 @@ docker build -t dosw-parcial:local .
 docker run -p 8080:8080 -e JWT_SECRET=<su_secret_base64> dosw-parcial:local
 ```
 
-<!-- Captura del contenedor corriendo: docs/images/docker.png -->
+**Contenedor corriendo**
+
+![Contenedor corriendo](docs/images/docker.webp)
 
 ## 10. CI/CD
 
@@ -146,9 +154,15 @@ Pipeline en `.github/workflows/ci-cd.yml`, se ejecuta en cada push a `main` y `d
 
 Secrets usados: `DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`, `AZURE_CREDENTIALS`, `AZURE_WEBAPP_NAME`, `JWT_SECRET`.
 
-<!-- Captura del workflow en verde: docs/images/pipeline.png -->
+**Workflow en verde**
+
+![Pipeline en verde](docs/images/pipeline.png)
 
 ## 11. Herramientas de modelado y diseño (evidencias)
 
-<!-- Captura de la cuenta en Lucidchart / Draw.io / Miro: docs/images/modelado.png -->
-<!-- Captura de la cuenta en Figma: docs/images/figma.png -->
+**Herramienta de modelado: Draw.io**
+
+![Draw.io](docs/images/modelado.png)
+**Herramienta de diseño: Figma**
+
+![Figma](docs/images/figma.png)
