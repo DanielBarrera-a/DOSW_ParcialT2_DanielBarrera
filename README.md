@@ -166,3 +166,73 @@ Secrets usados: `DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`, `AZURE_CREDENTIALS`, `A
 **Herramienta de diseño: Figma**
 
 ![Figma](docs/images/figma.png)
+
+
+# Solucion del parcial
+
+##Solucion por Paula Diaz y Daniel Barrera
+
+## Se trabajo en el repositorio de Daniel Barrera pero ambos creamos los pre requistos del parcial
+
+### Anexo link Github Paula: https://github.com/paulisdiar/DOSW_ParcialT2_PaulaDiaz.git
+
+## Asignacion del equipo de producto
+
+
+## Preguntas para la revisión con Producto:
+
+¿Cuál es la diferencia entre una validación de entrada y una validación de negocio? Seleccionen tres reglas del caso, incluyendo al menos una de cada tipo, y justifiquen su clasificación.
+
+
+
+
+
+
+En Pedir un turno, ¿cómo debe responder la API si fallan varias condiciones? Expliquen qué error se informa y qué cambios deben evitarse. 
+
+
+
+
+
+
+
+## Preguntas para la revisión con Arquitectura:
+
+### ¿Qué problemas aparecen cuando no se separan correctamente las capas? Presenten un ejemplo del caso y expliquen cómo distribuyen sus responsabilidades.
+
+Cuando no se separan de manera correcta, se violan los principios SOLID porque se mezcla la logica de negocio con las demas capas de vista y controlador.
+
+### ¿Qué diferencia existe entre un validador, una utilidad y un servicio? Ubiquen un ejemplo de cada uno en su diseño e indiquen su responsabilidad.
+
+Validador: 
+
+Utilidad:
+
+Servicio:
+
+
+
+
+### ¿Qué diferencia existe entre el Mapper IN y el Mapper OUT? Indiquen dónde se ubican y qué representaciones transforman cada uno.
+
+El mapperIn se ubica entre el controller y el service y el mapper out esta entre el repositorio y el service
+
+El mapperIn se encarga de traducir los datos externos que entran a nuestra Api en datos que el sistema sabe como manejar y el mapperOut se encarga de traducir nuestros datos de la Api a datos que el repository pueda utilizar
+
+
+Retomen las tres reglas clasificadas en el paso anterior: ¿en qué componente debe ejecutarse cada una y por qué? 
+
+
+
+
+### 4.Asignación del Equipo de Seguridad - Proteger el acceso y la información:
+
+
+Una vez finalizada la asignación, su líder técnico le pide que se reúna con el área de seguridad, el equipo le solicita revisar cómo se controlará el acceso a los endpoints y cómo se protegerá la información durante las operaciones. Para ello le invitan a responder las siguientes preguntas:
+
+
+####    ¿Cuál es la diferencia entre autenticación, autorización e integridad? Expliquen dónde y cómo aplicarán cada concepto en la API, con ejemplos del caso.
+
+#### Seleccionen dos riesgos del OWASP Top 10 que se pueden encontrar en su API. Para cada uno, describan cómo se vería ese escenario aplicable a la barbería, su mitigación y cómo verificarían que el control funciona.
+
+#### ¿Cuál de los tipos de autenticación es el más adecuado para este MVP? Justifique su respuesta  
