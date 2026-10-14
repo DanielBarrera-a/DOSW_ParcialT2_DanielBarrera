@@ -7,8 +7,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
-// Completado por Claude siguiendo la sección 4 de los prerrequisitos del parcial
-// Seguridad base: solo health y Swagger son públicos. Login, JWT y roles van en el laboratorio.
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -17,9 +15,19 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
-                .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(s -> s.sessionCreationPolicy(
+                        SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/health", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
+                        .requestMatchers(
+                                "/api/v1/health",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**"
+                        ).permitAll()
+                        .requestMatchers(
+                                org.springframework.http.HttpMethod.POST,
+                                "/api/productos"
+                        ).permitAll()
                         .anyRequest().authenticated())
                 .build();
     }
