@@ -183,14 +183,19 @@ Secrets usados: `DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`, `AZURE_CREDENTIALS`, `A
 
 ¿Cuál es la diferencia entre una validación de entrada y una validación de negocio? Seleccionen tres reglas del caso, incluyendo al menos una de cada tipo, y justifiquen su clasificación.
 
+La validación de entrada se encarga de verificar que los datos que ingresan cumplen con caracteristicas definidas para el campo donde se estan poniendo, como la cantidad de caracteres o el formato con un @ para correo en cambio la validacion de negocio se encarga de revisar que se cumplan las reglas como la paleta de color.
 
-
-
+1. Nombre de 3 a 60 caracteres 
+    Es una validacion de entrada porque esta verificando que el nombre ingresado cumpla con este formato
+2. Subtotal de productos mínimo $3.500
+   Es una validacion de entrada porque esta verificando que en el pedido el total del valor cumpla con este minimo
+3. De 1 a 5 productos activos
+   Es una validacion de negocio porque esta verificando que se cumplan las reglas para poder crear el pedido
 
 
 En Pedir un turno, ¿cómo debe responder la API si fallan varias condiciones? Expliquen qué error se informa y qué cambios deben evitarse. 
-
-
+Hacer un pedido
+Deberia responder con un codigo indicando el error segun la condicion que no cumple y mostrar el estado Failure de la solicitud
 
 
 
@@ -200,15 +205,18 @@ En Pedir un turno, ¿cómo debe responder la API si fallan varias condiciones? E
 
 ### ¿Qué problemas aparecen cuando no se separan correctamente las capas? Presenten un ejemplo del caso y expliquen cómo distribuyen sus responsabilidades.
 
-Cuando no se separan de manera correcta, se violan los principios SOLID porque se mezcla la logica de negocio con las demas capas de vista y controlador.
+Cuando no se separan de manera correcta, se violan los principios SOLID porque se mezcla la logica de negocio con las demas capas de vista y controlador. Esto haria dificil modificar y probar el codigo sin dañar lo que hay
 
 ### ¿Qué diferencia existe entre un validador, una utilidad y un servicio? Ubiquen un ejemplo de cada uno en su diseño e indiquen su responsabilidad.
 
-Validador: 
+Validador: Verifica que se cumplan reglas antes de continuar, evita hacer procesos erroneos
+Se podria validar que el pedido se eligio o no para los salones disponibles para entrega 
 
-Utilidad:
+Utilidad: Son funciones reutilizables que no se relacionan con las reglas de negocio
+podria ser la creacion de codigo automatico para los productos
 
-Servicio:
+Servicio: Es la coordinación de operaciones y las reglas de negocio para poder cumplir un caso de uso
+La creación de un pedido muestra esta coordinación, ya que se agregan los productos y la entrega
 
 
 
@@ -222,8 +230,12 @@ El mapperIn se encarga de traducir los datos externos que entran a nuestra Api e
 
 Retomen las tres reglas clasificadas en el paso anterior: ¿en qué componente debe ejecutarse cada una y por qué? 
 
-
-
+1. Nombre de 3 a 60 caracteres
+   Se valida en la entrada de la API, porque si no cumple con esa cantidad de caracteres no deberia poderse agregar ese producto
+2. Subtotal de productos mínimo $3.500
+   Se valida en el core porque para crear el pedido debe cumplirse 
+3. De 1 a 5 productos activos
+   Se valida en el core porque si no cumple no puede hacerse el pedido
 
 ### 4.Asignación del Equipo de Seguridad - Proteger el acceso y la información:
 
