@@ -201,6 +201,26 @@ Deberia responder con un codigo indicando el error segun la condicion que no cum
 
 
 
+## Asignacion del equipo de Arquitectura
+
+### Diagrama de componentes general
+
+![Diagrama de componentes general](docs/images/componentes-general.png)
+
+El Front-End se comunica con el Back-End por medio de la API REST y el Back-End es el unico que se conecta con MongoDB para guardar y consultar la informacion.
+
+### Diagrama de componentes especifico (MVC)
+
+![Diagrama de componentes MVC](docs/images/componentes-mvc.png)
+
+Separamos la aplicacion en tres modulos: usuarios, productos y pedidos. Cada uno sigue el mismo orden de capas: Controller, MapperIn, Service, MapperOut y Repository, y tiene su propio validador para las reglas de negocio.
+
+### Diagrama de clases
+
+![Diagrama de clases](docs/images/diagrama-clases.png)
+
+Un usuario puede hacer varios pedidos, y cada pedido tiene de 1 a 5 productos (con sus extras) y una forma de entrega. Usamos el patron Builder porque el pedido se arma por partes (productos, extras y entrega) y solo se crea cuando ya esta completo.
+
 ## Preguntas para la revisión con Arquitectura:
 
 ### ¿Qué problemas aparecen cuando no se separan correctamente las capas? Presenten un ejemplo del caso y expliquen cómo distribuyen sus responsabilidades.
