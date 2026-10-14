@@ -245,6 +245,13 @@ Una vez finalizada la asignación, su líder técnico le pide que se reúna con 
 
 ####    ¿Cuál es la diferencia entre autenticación, autorización e integridad? Expliquen dónde y cómo aplicarán cada concepto en la API, con ejemplos del caso.
 
+Autenticación sirve para verificar el tipo de usuario y asi poder acceder al sistema con la interfaz y funciones de ese usuario
+Autorización es que dependiendo el tipo de usuario tiene acceso a funciones diferentes, para que un usuario normal no tenga todas las funciones como de un administrador 
+Integridad seria como en la veracidad de los datos, en que los valores se mantienen bien para el funcionamiento de las operaciones 
 #### Seleccionen dos riesgos del OWASP Top 10 que se pueden encontrar en su API. Para cada uno, describan cómo se vería ese escenario aplicable a la barbería, su mitigación y cómo verificarían que el control funciona.
-
+1. Broken Acces Control
+Aqui tendriamos el problema si el cliente pudiera crear un producto que es una funcion que solo deberia tener el administrador, para evitar esto se protegen los endpoints con la autorizacion. Para la verficacion cuando el cliente vuelva a ingresar no deberia permitirle  crear ningun producto
+2. Injection
+3. Si algun cliente utilizara 
 #### ¿Cuál de los tipos de autenticación es el más adecuado para este MVP? Justifique su respuesta  
+Para este MVP consideramos que JWT es el mas adecuado ya que podemos verificar la identidad del usuario cuando inicia sesion y proteger los endpoints con los tokens 
