@@ -178,6 +178,8 @@ Secrets usados: `DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`, `AZURE_CREDENTIALS`, `A
 
 ## Asignacion del equipo de producto
 
+La tabla con el diseño de los endpoints esta guardada en Excel en la carpeta docs del repositorio: [docs/tabla-api.xlsx](docs/tabla-api.xlsx)
+
 
 ## Preguntas para la revisión con Producto:
 
