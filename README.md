@@ -272,6 +272,53 @@ Integridad seria como en la veracidad de los datos, en que los valores se mantie
 1. Broken Acces Control
 Aqui tendriamos el problema si el cliente pudiera crear un producto que es una funcion que solo deberia tener el administrador, para evitar esto se protegen los endpoints con la autorizacion. Para la verficacion cuando el cliente vuelva a ingresar no deberia permitirle  crear ningun producto
 2. Injection
-3. Si algun cliente utilizara 
+3. Si algun cliente utilizara los campos para ingresar datos para acceder a informacion de la base de datos, deberian validarse los datos recibidos y evitar dar informacion de mas al usuario. Se verificaria tratando esos datos y comprobando que no permite hacer consultas ni dar acceso a datos
 #### ¿Cuál de los tipos de autenticación es el más adecuado para este MVP? Justifique su respuesta  
-Para este MVP consideramos que JWT es el mas adecuado ya que podemos verificar la identidad del usuario cuando inicia sesion y proteger los endpoints con los tokens 
+Para este MVP consideramos que JWT es el mas adecuado ya que podemos verificar la identidad del usuario cuando inicia sesion y proteger los endpoints con los tokens
+
+## 5. Asignación del Equipo de Calidad - Definir cómo comprobar el comportamiento
+
+### ¿Cómo comprobaría que se respeta el orden y que, ante una falla, no se crea el pedido ni se modifica la información?
+
+Para comprobarlo hariamos pruebas usando TDD para verificar que falla la creacion del pedido, una prueba para el caso exitoso y pruebas para las posibles fallas que puedan ocurrir para ver que no cree un pedido o modifique si falla
+### a. Explique cómo las pruebas aportan evidencia del cumplimiento de las reglas de negocio. Distingan qué verificarían con pruebas unitarias.
+
+Las pruebas aportan evidencia mostrando el resultado esperado de una funcionalidad que cumple las reglas de negocio
+Con las pruebas unitarias podriamos verificar cosas mas especificas como que el calculo del total del pedido es correcto
+
+### b. Explique brevemente y con justificación si considera que las pruebas por sí solas garantizan la ausencia de errores.
+
+No, podrian reducir la ausencia pero pueden haber errores que no se hayan contemplado durante la creacion de las pruebas o si alguna prueba queda mal podria afectar tambien
+
+## 6. Asignación del Equipo de DevOps - Definir cómo comprobar el comportamiento
+
+### a. ¿Cuáles son las etapas principales de un pipeline CI/CD y qué propósito tiene cada una?
+
+
+### b. ¿Qué sucede si una prueba falla? ¿Debe permitirse el despliegue? Justifique.
+
+Debe detenerse la ejecución y corregir el problema. No deberia permitirse el despliegue porque si una prueba falla podrian aparecer errores que dañen el despliegue
+### c. ¿Para qué sirven los logs y qué registrarían para investigar un pedido fallido o un error de autenticación?
+
+Sirven para identificar errores y encontrar los problemas de forma mas facil. para un pedido fallido se registraria fecha y hora y el estado del pedido, asi se podria revisar cuando paso y catalogar los fallidos para identificar errores comunes 
+### d. Presente ejemplos de información útil para rastrear la operación y de datos que no deben registrarse.
+
+Información útil que sí debe registrarse
+
+- Fecha y hora 
+- Identificador del producto
+- Endpoint y método HTTP utilizados
+- Identificador del pedido
+- Tipo de error
+- Resultado de la autenticación
+
+Información que no debe registrarse
+
+- Contraseñas
+- Tokens 
+- Secretos 
+- Datos personales 
+- Información confidencial
+
+### e. ¿Qué diferencia debe existir entre el detalle del log interno y el mensaje que recibe el cliente?
+
