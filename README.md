@@ -178,6 +178,8 @@ Secrets usados: `DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`, `AZURE_CREDENTIALS`, `A
 
 ## Asignacion del equipo de producto
 
+La tabla con el diseño de los endpoints esta guardada en Excel en la carpeta docs del repositorio: [docs/tabla-api.xlsx](docs/tabla-api.xlsx)
+
 
 ## Preguntas para la revisión con Producto:
 
@@ -294,6 +296,12 @@ No, podrian reducir la ausencia pero pueden haber errores que no se hayan contem
 
 ### a. ¿Cuáles son las etapas principales de un pipeline CI/CD y qué propósito tiene cada una?
 
+- Build: compila el proyecto para verificar que el codigo no tenga errores
+- Test: ejecuta las pruebas para comprobar que todo funciona como se espera
+- Analisis de calidad: revisa la cobertura y la calidad del codigo (Jacoco y Sonar)
+- Empaquetado: construye la imagen Docker de la aplicacion
+- Despliegue: publica la imagen y la despliega en Azure
+
 
 ### b. ¿Qué sucede si una prueba falla? ¿Debe permitirse el despliegue? Justifique.
 
@@ -321,4 +329,6 @@ Información que no debe registrarse
 - Información confidencial
 
 ### e. ¿Qué diferencia debe existir entre el detalle del log interno y el mensaje que recibe el cliente?
+
+El log interno debe tener todo el detalle tecnico del error para que el equipo pueda encontrar el problema, como la clase donde fallo o la excepcion. En cambio el cliente solo debe recibir un mensaje claro y sencillo, por ejemplo "El subtotal del pedido no alcanza el minimo de $3.500", sin mostrar detalles internos que puedan ser usados para atacar la aplicacion.
 
