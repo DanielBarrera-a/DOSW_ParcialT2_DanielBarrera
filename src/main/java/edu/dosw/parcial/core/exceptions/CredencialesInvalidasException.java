@@ -1,8 +1,8 @@
 package edu.dosw.parcial.core.exceptions;
 
-public class CredencialesInvalidasException extends RuntimeException {
+public class CredencialesInvalidasException extends ApiException {
 
     public CredencialesInvalidasException() {
-        super("Correo o contraseña incorrectos");
+        super(CodigoError.E12, "Correo o contraseña incorrectos");
     }
 }

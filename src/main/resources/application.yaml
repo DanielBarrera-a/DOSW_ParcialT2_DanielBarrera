@@ -3,6 +3,9 @@ spring:
     name: DOSW-ParcialT2
   mongodb:
     uri: ${MONGODB_URI:mongodb://localhost:27017/dosw_parcial}
+  data:
+    mongodb:
+      auto-index-creation: true
 
 server:
   port: ${PORT:8080}

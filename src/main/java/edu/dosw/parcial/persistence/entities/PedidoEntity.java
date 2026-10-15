@@ -1,7 +1,10 @@
 package edu.dosw.parcial.persistence.entities;
 
-import edu.dosw.parcial.core.models.*;
+import edu.dosw.parcial.core.models.Entrega;
+import edu.dosw.parcial.core.models.EstadoPedido;
+import edu.dosw.parcial.core.models.ItemPedido;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
@@ -14,9 +17,12 @@ public class PedidoEntity {
     @Id
     private String id;
 
-    private Usuario cliente;
+    @Indexed
+    private String clienteId;
+    private String correoCliente;
     private List<ItemPedido> items = new ArrayList<>();
     private Entrega entrega;
+    @Indexed
     private LocalDateTime fechaDeCreacion;
     private double subtotal;
     private double total;
@@ -25,11 +31,13 @@ public class PedidoEntity {
     public PedidoEntity() {
     }
 
-    public PedidoEntity(String id, Usuario cliente, List<ItemPedido> items,
-                        Entrega entrega, LocalDateTime fechaDeCreacion,
-                        double subtotal, double total, EstadoPedido estado) {
+    public PedidoEntity(String id, String clienteId, String correoCliente,
+                        List<ItemPedido> items, Entrega entrega,
+                        LocalDateTime fechaDeCreacion, double subtotal,
+                        double total, EstadoPedido estado) {
         this.id = id;
-        this.cliente = cliente;
+        this.clienteId = clienteId;
+        this.correoCliente = correoCliente;
         this.items = items == null
                 ? new ArrayList<>()
                 : new ArrayList<>(items);
@@ -43,8 +51,11 @@ public class PedidoEntity {
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
-    public Usuario getCliente() { return cliente; }
-    public void setCliente(Usuario cliente) { this.cliente = cliente; }
+    public String getClienteId() { return clienteId; }
+    public void setClienteId(String clienteId) { this.clienteId = clienteId; }
+
+    public String getCorreoCliente() { return correoCliente; }
+    public void setCorreoCliente(String correoCliente) { this.correoCliente = correoCliente; }
 
     public List<ItemPedido> getItems() {
         return new ArrayList<>(items);

@@ -1,20 +1,29 @@
 package edu.dosw.parcial.core.models;
 
 public class Producto {
+    private String id;
     private String codigo;
     private String nombre;
-    private float precio;
+    private double precio;
     private boolean activo;
 
     public Producto() {
     }
 
     public Producto(String codigo, String nombre,
-                    float precio, boolean activo) {
+                    double precio, boolean activo) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.precio = precio;
         this.activo = activo;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getCodigo() {
@@ -33,11 +42,11 @@ public class Producto {
         this.nombre = nombre;
     }
 
-    public float getPrecio() {
+    public double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(float precio) {
+    public void setPrecio(double precio) {
         this.precio = precio;
     }
 

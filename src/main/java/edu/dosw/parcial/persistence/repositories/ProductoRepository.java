@@ -12,4 +12,8 @@ public interface ProductoRepository
 
     boolean existsByCodigo(String codigo);
 
+    boolean existsByNombreIgnoreCase(String nombre);
+
+    Optional<ProductoEntity> findFirstByOrderByCodigoDesc();
+
 }

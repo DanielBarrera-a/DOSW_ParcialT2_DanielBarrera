@@ -1,5 +1,6 @@
 package edu.dosw.parcial.config;
 
+import edu.dosw.parcial.core.exceptions.CodigoError;
 import edu.dosw.parcial.core.utils.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -54,12 +55,12 @@ public class SecurityConfig {
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint((request, response, e) -> {
                             log.warn("Acceso sin token válido a {}", request.getRequestURI());
-                            escribirError(request, response, HttpStatus.UNAUTHORIZED,
+                            escribirError(request, response, HttpStatus.UNAUTHORIZED, CodigoError.E09,
                                     "Debe iniciar sesión y enviar un token válido");
                         })
                         .accessDeniedHandler((request, response, e) -> {
                             log.warn("Acceso denegado por rol a {}", request.getRequestURI());
-                            escribirError(request, response, HttpStatus.FORBIDDEN,
+                            escribirError(request, response, HttpStatus.FORBIDDEN, CodigoError.E10,
                                     "No tiene permisos para realizar esta operación");
                         }))
                 .addFilterBefore(new JwtAuthenticationFilter(jwtUtil),
@@ -73,13 +74,14 @@ public class SecurityConfig {
     }
 
     private static void escribirError(HttpServletRequest request, HttpServletResponse response,
-                                      HttpStatus estado, String mensaje) throws IOException {
+                                      HttpStatus estado, CodigoError codigo,
+                                      String mensaje) throws IOException {
         response.setStatus(estado.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
         response.getWriter().write("""
-                {"timestamp":"%s","status":%d,"error":"%s","mensaje":"%s","ruta":"%s"}"""
-                .formatted(LocalDateTime.now(), estado.value(), estado.getReasonPhrase(),
+                {"timestamp":"%s","status":%d,"codigoError":"%s","error":"%s","mensaje":"%s","ruta":"%s"}"""
+                .formatted(LocalDateTime.now(), estado.value(), codigo.getValor(), estado.getReasonPhrase(),
                         mensaje, request.getRequestURI()));
     }
 }

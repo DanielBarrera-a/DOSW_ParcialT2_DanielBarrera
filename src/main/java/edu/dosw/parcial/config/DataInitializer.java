@@ -11,8 +11,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-// Crea en MongoDB los usuarios predefinidos al arrancar. Las contraseñas vienen de variables
-// de entorno; si una no está definida ese usuario no se crea.
 @Component
 public class DataInitializer implements CommandLineRunner {
 

@@ -7,7 +7,7 @@ import java.util.List;
 public class Pedido {
 
     private String id;
-    private Usuario cliente;
+    private UsuarioAutenticado cliente;
     private List<ItemPedido> items;
     private Entrega entrega;
     private LocalDateTime fechaDeCreacion;
@@ -19,7 +19,7 @@ public class Pedido {
         this.items = new ArrayList<>();
     }
 
-    public Pedido(String id, Usuario cliente, List<ItemPedido> items,
+    public Pedido(String id, UsuarioAutenticado cliente, List<ItemPedido> items,
                   Entrega entrega, LocalDateTime fechaDeCreacion,
                   double subtotal, double total, EstadoPedido estado) {
         this.id = id;
@@ -40,17 +40,16 @@ public class Pedido {
     public void setId(String id) {
         this.id = id;
     }
-    public Usuario getCliente() {
+    public UsuarioAutenticado getCliente() {
         return cliente;
     }
-    public void setCliente(Usuario cliente) {
+    public void setCliente(UsuarioAutenticado cliente) {
         this.cliente = cliente;
     }
     public List<ItemPedido> getItems() {
         return items;
     }
     public void setItems(List<ItemPedido> items) {
-
         this.items = items == null
                 ? new ArrayList<>()
                 : new ArrayList<>(items);

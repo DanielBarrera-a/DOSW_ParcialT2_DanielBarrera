@@ -40,7 +40,6 @@ public class JwtUtil {
                 .compact();
     }
 
-    // Lanza JwtException si el token está alterado, mal formado o vencido
     public UsuarioAutenticado leerToken(String token) {
         Claims claims = Jwts.parser()
                 .verifyWith(clave)

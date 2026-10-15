@@ -9,6 +9,7 @@ import java.util.Map;
 public record ErrorResponse(
         LocalDateTime timestamp,
         int status,
+        String codigoError,
         String error,
         String mensaje,
         String ruta,

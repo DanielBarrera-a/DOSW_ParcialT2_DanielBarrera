@@ -1,16 +1,19 @@
 package edu.dosw.parcial.core.models;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PedidoBuilder {
 
-    private Usuario cliente;
+    private static final ZoneId ZONA = ZoneId.of("America/Bogota");
+
+    private UsuarioAutenticado cliente;
     private final List<ItemPedido> items = new ArrayList<>();
     private Entrega entrega;
 
-    public PedidoBuilder paraCliente(Usuario cliente) {
+    public PedidoBuilder paraCliente(UsuarioAutenticado cliente) {
         this.cliente = cliente;
         return this;
     }
@@ -45,7 +48,7 @@ public class PedidoBuilder {
                 cliente,
                 items,
                 entrega,
-                LocalDateTime.now(),
+                LocalDateTime.now(ZONA),
                 subtotal,
                 subtotal + costoEntrega,
                 EstadoPedido.CONFIRMADO

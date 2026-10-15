@@ -1,6 +1,7 @@
 package edu.dosw.parcial.persistence.entities;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "productos")
@@ -9,16 +10,17 @@ public class ProductoEntity {
     @Id
     private String id;
 
+    @Indexed(unique = true)
     private String codigo;
     private String nombre;
-    private float precio;
+    private double precio;
     private boolean activo;
 
     public ProductoEntity() {
     }
 
     public ProductoEntity(String id, String codigo, String nombre,
-                          float precio, boolean activo) {
+                          double precio, boolean activo) {
         this.id = id;
         this.codigo = codigo;
         this.nombre = nombre;
@@ -35,8 +37,8 @@ public class ProductoEntity {
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public float getPrecio() { return precio; }
-    public void setPrecio(float precio) { this.precio = precio; }
+    public double getPrecio() { return precio; }
+    public void setPrecio(double precio) { this.precio = precio; }
 
     public boolean isActivo() { return activo; }
     public void setActivo(boolean activo) { this.activo = activo; }

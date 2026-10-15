@@ -9,6 +9,7 @@ public class ProductoMapper {
 
     public ProductoEntity toEntity(Producto producto) {
         ProductoEntity entity = new ProductoEntity();
+        entity.setId(producto.getId());
         entity.setCodigo(producto.getCodigo());
         entity.setNombre(producto.getNombre());
         entity.setPrecio(producto.getPrecio());
@@ -17,11 +18,13 @@ public class ProductoMapper {
     }
 
     public Producto toDomain(ProductoEntity entity) {
-        return new Producto(
+        Producto producto = new Producto(
                 entity.getCodigo(),
                 entity.getNombre(),
                 entity.getPrecio(),
                 entity.isActivo()
         );
+        producto.setId(entity.getId());
+        return producto;
     }
 }

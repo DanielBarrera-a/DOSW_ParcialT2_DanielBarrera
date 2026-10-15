@@ -1,6 +1,8 @@
 package edu.dosw.parcial.persistence.mappers;
 
 import edu.dosw.parcial.core.models.Pedido;
+import edu.dosw.parcial.core.models.Rol;
+import edu.dosw.parcial.core.models.UsuarioAutenticado;
 import edu.dosw.parcial.persistence.entities.PedidoEntity;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +12,8 @@ public class PedidoMapper {
     public PedidoEntity toEntity(Pedido pedido) {
         return new PedidoEntity(
                 pedido.getId(),
-                pedido.getCliente(),
+                pedido.getCliente().id(),
+                pedido.getCliente().correo(),
                 pedido.getItems(),
                 pedido.getEntrega(),
                 pedido.getFechaDeCreacion(),
@@ -23,7 +26,7 @@ public class PedidoMapper {
     public Pedido toDomain(PedidoEntity entity) {
         return new Pedido(
                 entity.getId(),
-                entity.getCliente(),
+                new UsuarioAutenticado(entity.getClienteId(), entity.getCorreoCliente(), Rol.CLIENTE),
                 entity.getItems(),
                 entity.getEntrega(),
                 entity.getFechaDeCreacion(),
