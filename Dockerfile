@@ -1,5 +1,3 @@
-# Completado por Claude siguiendo la sección 5 de los prerrequisitos del parcial
-
 # Etapa 1: compilar
 FROM maven:3.9-eclipse-temurin-21 AS builder
 WORKDIR /app

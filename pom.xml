@@ -33,7 +33,7 @@
 		<springdoc.version>3.1.1</springdoc.version>
 		<jjwt.version>0.12.3</jjwt.version>
 		<mapstruct.version>1.6.3</mapstruct.version>
-		<!-- Completado por Claude: versiones de plugins y propiedades de Sonar -->
+		<!-- Versiones de plugins y propiedades de Sonar -->
 		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
 		<jacoco.version>0.8.15</jacoco.version>
 		<sonar-maven-plugin.version>3.10.0.2594</sonar-maven-plugin.version>
@@ -90,7 +90,7 @@
 			<version>${jjwt.version}</version>
 			<scope>runtime</scope>
 		</dependency>
-		<!-- Completado por Claude: MapStruct (anotaciones @Mapper, @Mapping) -->
+		<!-- MapStruct (anotaciones @Mapper, @Mapping) -->
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
@@ -136,7 +136,7 @@
 						</goals>
 						<configuration>
 							<annotationProcessorPaths>
-								<!-- Completado por Claude: ORDEN IMPORTANTE lombok -> binding -> mapstruct-processor -->
+								<!-- ORDEN IMPORTANTE lombok -> binding -> mapstruct-processor -->
 								<path>
 									<groupId>org.projectlombok</groupId>
 									<artifactId>lombok</artifactId>
@@ -162,7 +162,7 @@
 						</goals>
 						<configuration>
 							<annotationProcessorPaths>
-								<!-- Completado por Claude: ORDEN IMPORTANTE lombok -> binding -> mapstruct-processor -->
+								<!-- ORDEN IMPORTANTE lombok -> binding -> mapstruct-processor -->
 								<path>
 									<groupId>org.projectlombok</groupId>
 									<artifactId>lombok</artifactId>
@@ -182,7 +182,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- Completado por Claude: Jacoco, reporte de cobertura al correr las pruebas -->
+			<!-- Jacoco, reporte de cobertura al correr las pruebas -->
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -202,7 +202,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- Completado por Claude: SonarQube, análisis de calidad (mvn sonar:sonar) -->
+			<!-- SonarQube, análisis de calidad (mvn sonar:sonar) -->
 			<plugin>
 				<groupId>org.sonarsource.scanner.maven</groupId>
 				<artifactId>sonar-maven-plugin</artifactId>
