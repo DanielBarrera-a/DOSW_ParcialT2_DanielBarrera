@@ -34,21 +34,34 @@ public class Pedido {
         this.estado = estado;
     }
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
-
-    public Usuario getCliente() { return cliente; }
-    public void setCliente(Usuario cliente) { this.cliente = cliente; }
-
-    public List<ItemPedido> getItems() { return items; }
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
+    public Usuario getCliente() {
+        return cliente;
+    }
+    public void setCliente(Usuario cliente) {
+        this.cliente = cliente;
+    }
+    public List<ItemPedido> getItems() {
+        return items;
+    }
     public void setItems(List<ItemPedido> items) {
+
         this.items = items == null
                 ? new ArrayList<>()
                 : new ArrayList<>(items);
     }
 
-    public Entrega getEntrega() { return entrega; }
-    public void setEntrega(Entrega entrega) { this.entrega = entrega; }
+    public Entrega getEntrega() {
+        return entrega;
+    }
+    public void setEntrega(Entrega entrega) {
+        this.entrega = entrega;
+    }
 
     public LocalDateTime getFechaDeCreacion() {
         return fechaDeCreacion;
@@ -58,12 +71,24 @@ public class Pedido {
         this.fechaDeCreacion = fechaDeCreacion;
     }
 
-    public double getSubtotal() { return subtotal; }
-    public void setSubtotal(double subtotal) { this.subtotal = subtotal; }
+    public double getSubtotal() {
+        return subtotal;
+    }
+    public void setSubtotal(double subtotal) {
+        this.subtotal = subtotal;
+    }
 
-    public double getTotal() { return total; }
-    public void setTotal(double total) { this.total = total; }
+    public double getTotal() {
+        return total;
+    }
+    public void setTotal(double total) {
+        this.total = total;
+    }
 
-    public EstadoPedido getEstado() { return estado; }
-    public void setEstado(EstadoPedido estado) { this.estado = estado; }
+    public EstadoPedido getEstado() {
+        return estado;
+    }
+    public void setEstado(EstadoPedido estado) {
+        this.estado = estado;
+    }
 }
