@@ -1,11 +1,14 @@
 package edu.dosw.parcial.core.services;
 
+
 import edu.dosw.parcial.controller.dtos.CrearPedidoRequest;
 import edu.dosw.parcial.controller.dtos.ItemPedidoRequest;
 import edu.dosw.parcial.core.models.*;
 import edu.dosw.parcial.persistence.entities.ExtraEntity;
 import edu.dosw.parcial.persistence.entities.ProductoEntity;
+import edu.dosw.parcial.persistence.mappers.PedidoMapper;
 import edu.dosw.parcial.persistence.repositories.ExtraRepository;
+import edu.dosw.parcial.persistence.repositories.PedidoRepository;
 import edu.dosw.parcial.persistence.repositories.ProductoRepository;
 import org.springframework.stereotype.Service;
 
@@ -21,16 +24,28 @@ public class PedidoService {
 
     private final ProductoRepository productoRepository;
     private final ExtraRepository extraRepository;
+    private final PedidoRepository pedidoRepository;
+    private final PedidoMapper pedidoMapper;
 
     public PedidoService(
             ProductoRepository productoRepository,
-            ExtraRepository extraRepository) {
+            ExtraRepository extraRepository,
+            PedidoRepository pedidoRepository,
+            PedidoMapper pedidoMapper) {
+
         this.productoRepository = productoRepository;
         this.extraRepository = extraRepository;
+        this.pedidoRepository = pedidoRepository;
+        this.pedidoMapper = pedidoMapper;
     }
 
     public Pedido crearPedido(CrearPedidoRequest request, Usuario cliente) {
         validarSolicitud(request);
+
+        if (cliente == null) {
+            throw new IllegalArgumentException(
+                    "El cliente autenticado es obligatorio.");
+        }
 
         List<ItemPedido> items = new ArrayList<>();
         Set<String> codigosProductos = new HashSet<>();
@@ -125,7 +140,14 @@ public class PedidoService {
             builder.agregarItem(item);
         }
 
-        return builder.build();
+        Pedido pedido = builder.build();
+
+        // Persistir el pedido en MongoDB.
+        var entidad = pedidoMapper.toEntity(pedido);
+        var pedidoGuardado = pedidoRepository.save(entidad);
+
+        // Devolver el pedido con el identificador generado por MongoDB.
+        return pedidoMapper.toDomain(pedidoGuardado);
     }
 
     private void validarSolicitud(CrearPedidoRequest request) {
@@ -159,7 +181,8 @@ public class PedidoService {
         TipoEntrega tipo = request.getTipoEntrega();
 
         if (tipo == TipoEntrega.CONSUMO_LOCAL) {
-            if (noVacio(request.getBloque()) || noVacio(request.getSalon())) {
+            if (noVacio(request.getBloque())
+                    || noVacio(request.getSalon())) {
                 throw new IllegalArgumentException(
                         "El consumo local no requiere bloque ni salón.");
             }
@@ -167,7 +190,8 @@ public class PedidoService {
         }
 
         if (tipo == TipoEntrega.PARA_LLEVAR) {
-            if (noVacio(request.getBloque()) || noVacio(request.getSalon())) {
+            if (noVacio(request.getBloque())
+                    || noVacio(request.getSalon())) {
                 throw new IllegalArgumentException(
                         "Para llevar no requiere bloque ni salón.");
             }
@@ -187,7 +211,8 @@ public class PedidoService {
             if (!bloque.equalsIgnoreCase("A")
                     && !bloque.equalsIgnoreCase("B")) {
                 throw new IllegalArgumentException(
-                        "La entrega en salón solo está disponible en los bloques A y B.");
+                        "La entrega en salón solo está disponible "
+                                + "en los bloques A y B.");
             }
         }
     }
