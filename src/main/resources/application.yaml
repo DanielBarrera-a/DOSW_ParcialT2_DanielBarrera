@@ -11,6 +11,19 @@ jwt:
   secret: ${JWT_SECRET}
   expiration-ms: 3600000
 
+app:
+  usuarios:
+    admin:
+      correo: ${ADMIN_CORREO:admin@foodhub.edu.co}
+      contrasena: ${ADMIN_PASSWORD:}
+    cliente:
+      correo: ${CLIENTE_CORREO:cliente@foodhub.edu.co}
+      contrasena: ${CLIENTE_PASSWORD:}
+
+logging:
+  level:
+    edu.dosw.parcial: INFO
+
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
