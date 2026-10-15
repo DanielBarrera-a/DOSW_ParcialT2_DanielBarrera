@@ -21,7 +21,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(classes = ParcialApplication.class,
         properties = {"jwt.secret=dGVzdHNlY3JldHRlc3RzZWNyZXR0ZXN0c2VjcmV0dGVzdHNlY3JldA==",
-                "app.catalogo.inicializar=false"})
+                "app.catalogo.inicializar=false",
+                "spring.data.mongodb.auto-index-creation=false"})
 class SecurityConfigTest {
 
     @Autowired
