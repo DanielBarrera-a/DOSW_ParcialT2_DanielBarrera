@@ -332,3 +332,185 @@ Información que no debe registrarse
 
 El log interno debe tener todo el detalle tecnico del error para que el equipo pueda encontrar el problema, como la clase donde fallo o la excepcion. En cambio el cliente solo debe recibir un mensaje claro y sencillo, por ejemplo "El subtotal del pedido no alcanza el minimo de $3.500", sin mostrar detalles internos que puedan ser usados para atacar la aplicacion.
 
+
+
+# Implementación y evidencias
+
+## Cómo ejecutar la aplicación y las pruebas
+
+Variables de entorno que necesita la aplicación (los valores no se suben al repositorio):
+
+| Variable | Para qué sirve |
+|---|---|
+| `MONGODB_URI` | Cadena de conexión a MongoDB (por defecto `mongodb://localhost:27017/dosw_parcial`) |
+| `JWT_SECRET` | Secreto en Base64 para firmar los tokens JWT |
+| `ADMIN_PASSWORD` | Contraseña del usuario administrador que se crea al iniciar |
+| `CLIENTE_PASSWORD` | Contraseña del usuario cliente que se crea al iniciar |
+| `ADMIN_CORREO` / `CLIENTE_CORREO` | Opcionales, por defecto `admin@foodhub.edu.co` y `cliente@foodhub.edu.co` |
+| `PORT` | Puerto del servidor (por defecto 8080) |
+
+Levantar MongoDB local:
+```bash
+docker run -d -p 27017:27017 --name mongo-parcial mongo:7
+```
+
+Ejecutar la API:
+```bash
+./mvnw spring-boot:run
+```
+
+Ejecutar las pruebas y generar el reporte de cobertura (`target/site/jacoco/index.html`):
+```bash
+./mvnw verify
+```
+
+Al iniciar, la aplicación crea en la base de datos los usuarios predefinidos (ADMIN y CLIENTE) y carga el catálogo inicial (PROD-001 a PROD-005 y EXT-001 a EXT-005). Para probar en Swagger se inicia sesión, se copia el token y se pega en el botón **Authorize**.
+
+## Pruebas funcionales en Swagger
+
+Las pruebas se hicieron con la API corriendo en local contra MongoDB. Debajo de cada captura están los logs que dejó la aplicación en esa petición.
+
+### Swagger y endpoints
+
+![Swagger](docs/images/evidencias/01-swagger-endpoints.png)
+
+```
+INFO  DataInitializer       : Usuario ADMIN creado en la base de datos
+INFO  DataInitializer       : Usuario CLIENTE creado en la base de datos
+INFO  CatalogoInitializer   : Producto base PROD-001 cargado en el catálogo
+INFO  CatalogoInitializer   : Extra EXT-001 cargado en el catálogo
+```
+
+### Iniciar sesión
+
+Inicio de sesión correcto, devuelve el token (200):
+
+![Login 200](docs/images/evidencias/02-login-200.png)
+
+```
+INFO  AuthService : Inicio de sesión exitoso: usuario 6ad0c0cd95017484d041a451 con rol CLIENTE
+```
+
+Contraseña incorrecta (401):
+
+![Login 401](docs/images/evidencias/03-login-401.png)
+
+```
+WARN  AuthService : Inicio de sesión rechazado: contraseña incorrecta para el usuario 6ad0c0cd95017484d041a451
+```
+
+Token pegado en el botón Authorize:
+
+![Authorize](docs/images/evidencias/04-authorize.png)
+
+### Crear productos
+
+Producto creado por el ADMIN, el código lo genera el servidor (201):
+
+![Producto 201](docs/images/evidencias/05-producto-201.png)
+
+```
+INFO  ProductoService : Producto creado: PROD-006 (Arroz con pollo)
+```
+
+E01 - nombre muy corto y precio en 0, se indican los campos inválidos (400):
+
+![Producto 400](docs/images/evidencias/06-producto-400-e01.png)
+
+```
+WARN  GlobalExceptionHandler : Petición rechazada por datos inválidos [E01] en /api/v1/productos: [nombre, precio]
+```
+
+Producto con un nombre que ya existe (409):
+
+![Producto 409](docs/images/evidencias/07-producto-409.png)
+
+```
+WARN  ProductoService        : Producto duplicado: ya existe 'Arroz con pollo'
+WARN  GlobalExceptionHandler : Conflicto [E07] en /api/v1/productos: Ya existe un producto con el nombre indicado
+```
+
+Un CLIENTE intenta crear un producto (403):
+
+![Producto 403](docs/images/evidencias/08-producto-403.png)
+
+```
+WARN  SecurityConfig : Acceso denegado por rol a /api/v1/productos
+```
+
+Sin token (401):
+
+![Producto 401](docs/images/evidencias/09-producto-401.png)
+
+```
+WARN  SecurityConfig : Acceso sin token válido a /api/v1/productos
+```
+
+### Hacer un pedido
+
+E14 - pedido válido con entrega en salón, el servidor calcula el desglose y el pedido queda CONFIRMADO (201). Subtotal: 5.000 + 800 + 1.500 + 3.500 = 10.800, total con la entrega de 1.000 = 11.800:
+
+![Pedido 201](docs/images/evidencias/10-pedido-201-e14.png)
+
+```
+INFO  PedidoService : Pedido 6ad0c0e195017484d041a45d creado para el cliente 6ad0c0cd95017484d041a451: subtotal 10800.0, total 11800.0
+```
+
+E4 - solo PROD-005, el subtotal de $2.500 no alcanza el mínimo (422):
+
+![Pedido E4](docs/images/evidencias/11-pedido-422-e4.png)
+
+```
+WARN  PedidoService          : Pedido rechazado (E4): subtotal 2500.0 bajo el mínimo
+WARN  GlobalExceptionHandler : Regla de negocio incumplida [E4] en /api/v1/pedidos: El subtotal de $2.500 está por debajo del mínimo de $3.500
+```
+
+E5 - entrega en el bloque C (422):
+
+![Pedido E5](docs/images/evidencias/12-pedido-422-e5.png)
+
+```
+WARN  PedidoService          : Pedido rechazado (E5): bloque C no habilitado
+WARN  GlobalExceptionHandler : Regla de negocio incumplida [E5] en /api/v1/pedidos: El bloque C no está habilitado para la modalidad ENTREGA_SALON
+```
+
+E06 - pedido con 6 productos (400):
+
+![Pedido E06](docs/images/evidencias/13-pedido-400-e06.png)
+
+```
+WARN  GlobalExceptionHandler : Petición rechazada por datos inválidos [E06] en /api/v1/pedidos: [items]
+```
+
+E02 - producto que no existe (404):
+
+![Pedido E02](docs/images/evidencias/14-pedido-404-e02.png)
+
+```
+WARN  PedidoService          : Pedido rechazado (E02): el producto PROD-099 no existe
+WARN  GlobalExceptionHandler : Recurso no encontrado [E02] en /api/v1/pedidos: El producto PROD-099 no existe
+```
+
+E03 - extra que no existe (404):
+
+![Pedido E03](docs/images/evidencias/15-pedido-404-e03.png)
+
+```
+WARN  PedidoService          : Pedido rechazado (E03): extras inexistentes [EXT-099]
+WARN  GlobalExceptionHandler : Recurso no encontrado [E03] en /api/v1/pedidos: Uno o más extras seleccionados no existen: EXT-099
+```
+
+Un ADMIN intenta hacer un pedido (403):
+
+![Pedido 403](docs/images/evidencias/16-pedido-403.png)
+
+```
+WARN  SecurityConfig : Acceso denegado por rol a /api/v1/pedidos
+```
+
+## Enlaces
+
+| Recurso | URL |
+|---|---|
+| Aplicación en Azure | https://dosw-parcial-danielbarrera-gsgkbxc6gdhmgxf6.northcentralus-01.azurewebsites.net |
+| Swagger en Azure | https://dosw-parcial-danielbarrera-gsgkbxc6gdhmgxf6.northcentralus-01.azurewebsites.net/swagger-ui/index.html |
