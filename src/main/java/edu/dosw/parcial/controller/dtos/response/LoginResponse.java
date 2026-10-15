@@ -1,0 +1,4 @@
+package edu.dosw.parcial.controller.dtos.response;
+
+public record LoginResponse(String token, String tipo, long expiraEnMs) {
+}
